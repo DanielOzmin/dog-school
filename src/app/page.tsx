@@ -1,103 +1,130 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+
+export default function Login() {
+  
+  const [password, setPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const router = useRouter()
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const loginData = { email, password }
+
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginData)
+    })
+
+    const data = await response.json()
+
+    if(response.ok){
+      console.log(data.message)
+      router.push("/home")
+    }else{
+      console.log(data.error)
+    }
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="flex items-center justify-center w-full lg:p-12">
+      <div className="flex items-center xl:p-10">
+        <form onSubmit={handleLogin} className="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl">
+          <h3 className="mb-3 text-4xl font-extrabold text-dark-grey-900">Bejelentkezés</h3>
+          <p className="mb-4 text-grey-700">Add meg a Email címed és jelszavad</p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <button
+            type="button"
+            className="flex items-center justify-center w-full py-4 mb-6 text-sm font-medium transition duration-300 rounded-2xl text-grey-900 
+            bg-grey-300 hover:bg-grey-400 focus:ring-4 focus:ring-grey-300">
+            <img
+              className="h-5 mr-2"
+              src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/logos/logo-google.png"
+              alt="Google logo" />
+            Bejelentkezés Google fiókkal
+          </button>
+
+          <div className="flex items-center mb-3">
+            <hr className="h-0 border-b border-solid border-grey-500 grow" />
+            <p className="mx-4 text-grey-600">vagy</p>
+            <hr className="h-0 border-b border-solid border-grey-500 grow" />
+          </div>
+
+          <div className="relative mb-8">
+            <input
+              type="email"
+              id="email"
+              placeholder=" "
+              className="peer block w-full appearance-none border-2 border-gray-300 bg-transparent px-2.5 pt-5 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 rounded-lg"
+              onChange={e => setEmail(e.target.value)}
+              required />
+
+            <label
+              htmlFor="email"
+              className="absolute left-2.5 top-2 z-10 origin-[0] -translate-y-3 scale-75 transform text-sm text-gray-700 bg-white px-2 transition-all duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-3 peer-focus:scale-75 peer-focus:text-blue-600">
+              Email:
+            </label>
+          </div>
+
+          <div className="relative mb-8">
+            <input
+              type="password"
+              id="password"
+              placeholder=" "
+              className="peer block w-full appearance-none border-2 border-gray-300 bg-transparent px-2.5 pt-5 pb-2.5 
+              text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 rounded-lg"
+              onChange={e => setPassword(e.target.value)}
+              required />
+
+            <label
+              htmlFor="password"
+              className="absolute left-2.5 top-2 z-10 origin-[0] -translate-y-3 scale-75 transform text-sm text-gray-700 bg-white px-2 transition-all 
+              duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 
+              peer-focus:-translate-y-3 peer-focus:scale-75 peer-focus:text-blue-600">
+              Jelszó:
+            </label>
+          </div>
+
+
+          <div className="flex flex-row justify-between mb-8">
+            <label className="inline-flex items-center cursor-pointer select-none">
+              <input type="checkbox" className="w-4 h-4" />
+
+              <span className="ml-3 text-sm font-normal text-grey-900 hover:text-[#0074B8]">
+                Maradjak bejelntkezve
+              </span>
+            </label>
+            <a
+              href="#"
+              className="text-sm font-medium text-purple-blue-500 hover:underline hover:text-[#0074B8]">
+              Elfelejtett jelszó?
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none transition duration-300 md:w-96 
+          rounded-2xl bg-[#00AEEF] text-white hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 
+          hover:bg-[#0074B8]">
+            Bejelentkezés
+          </button>
+
+          <p className="flex justify-center text-sm leading-relaxed text-grey-900 gap-2">
+            Még nincs regisztrációd?
+            <Link href="/registration">
+              <p className="font-bold text-grey-700 hover:underline hover:text-[#0074B8]">
+                Itt tudsz regisztránli
+              </p>
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
-  );
+  )
 }
