@@ -25,10 +25,14 @@ export default function Login() {
     const data = await response.json()
 
     if(response.ok){
-      console.log(data.message)
+      console.log(data)
+      localStorage.setItem("token", data)
       router.push("/home")
     }else{
+      alert("Hibás email vagy jelszó")
       console.log(data.error)
+      setPassword("")
+      setEmail("")
     }
   }
 
@@ -63,6 +67,7 @@ export default function Login() {
               placeholder=" "
               className="peer block w-full appearance-none border-2 border-gray-300 bg-transparent px-2.5 pt-5 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 rounded-lg"
               onChange={e => setEmail(e.target.value)}
+              value={email}
               required />
 
             <label
@@ -80,6 +85,7 @@ export default function Login() {
               className="peer block w-full appearance-none border-2 border-gray-300 bg-transparent px-2.5 pt-5 pb-2.5 
               text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 rounded-lg"
               onChange={e => setPassword(e.target.value)}
+              value={password}
               required />
 
             <label
