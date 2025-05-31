@@ -38,9 +38,12 @@ const CreateCourse = ({ setView }: Props) => {
 
     return (
         <>
-            <button className="w-full px-6 py-5 mt-5 text-sm font-bold leading-none transition 
-                        duration-300 md:w-24 rounded-2xl bg-[#00AEEF] text-white hover:bg-[#0074B8] 
-                        focus:ring-4 focus:ring-blue-100" onClick={() => setView("None")}>Vissza</button>
+            <button
+                className="w-full mt-4 sm:w-48 px-6 py-4 text-sm font-bold leading-none transition duration-300 
+                rounded-2xl bg-[#00AEEF] text-white hover:bg-[#0074B8] focus:ring-4 focus:ring-blue-100"
+                onClick={() => setView("None")}>
+                <span className="mr-2">←</span> Vissza
+            </button>
             <div className="flex items-center justify-center w-full lg:p-12">
                 <div className="flex items-center xl:p-10">
                     <form onSubmit={handleSubmit}

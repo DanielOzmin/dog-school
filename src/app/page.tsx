@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuth } from "./context/authContext";
+
 
 
 export default function Login() {
@@ -10,6 +12,7 @@ export default function Login() {
   const [password, setPassword] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const router = useRouter()
+  const auth = useAuth()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,8 +28,7 @@ export default function Login() {
     const data = await response.json()
 
     if(response.ok){
-      console.log(data)
-      localStorage.setItem("token", data)
+      auth.login(data.token) 
       router.push("/home")
     }else{
       alert("Hibás email vagy jelszó")
